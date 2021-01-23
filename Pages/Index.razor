@@ -1,0 +1,138 @@
+﻿@page "/"
+@using System.Text
+
+<h1>Encowode</h1>
+<p>Encode messages into owo and uwu</p>
+
+<!--Input-->
+<textarea @bind="inputText" class="textarea" style="width: 100%; resize: verticle; display: block;">@inputText</textarea>
+<!--Buttons-->
+<button class="btn btn-primary" style="width: 49%; display: inline-block;" @onclick="onEncode">Encowode</button>
+<button class="btn btn-primary" style="float: right; width: 49%; display: inline-block;" @onclick="onDecode">Decowode</button>
+<!--Output-->
+<textarea class="textarea" style="width: 100%; resize: verticle; display: block;">@outputText</textarea>
+
+@code {
+
+    private string BIN_FORMAT_8 = "00000000";
+    private string BIN_FORMAT_2 = "00";
+    private string OWO_CHARS = "OoUu";
+
+    private string inputText = "Enter text";
+    private string outputText = "";
+
+
+    public string format8Bin(string binary) {
+        StringBuilder toRet = new StringBuilder();
+        int zeros = BIN_FORMAT_8.Length - binary.Length;
+        for(int i = 0; i<zeros; i++) {
+            toRet.Append("0");
+        }
+        toRet.Append(binary);
+        return toRet.ToString();
+    }
+    public string format2Bin(string binary) {
+        StringBuilder toRet = new StringBuilder();
+        int zeros = BIN_FORMAT_2.Length - binary.Length;
+        for(int i = 0; i<zeros; i++) {
+            toRet.Append("0");
+        }
+        toRet.Append(binary);
+        return toRet.ToString();
+    }
+
+    public int binToInt(string binary) {
+        return Convert.ToInt32(binary, 2);
+    }
+    public string intToBin(int number) {
+        return Convert.ToString(number, 2);
+    }
+
+    public string squashBinStr(string binary) {
+        StringBuilder result = new StringBuilder();
+        for(int i = 0; i < binary.Length; i += 2) {
+            string bits = ""+binary[i]+binary[i+1];
+            result.Append(binToInt(bits));
+        }
+        return result.ToString();
+    }
+
+    public string numToOwo(string number) {
+        int num = int.Parse(number);
+        return ""+OWO_CHARS[num];
+    }
+    public int owoToNum(char owo) {
+        return OWO_CHARS.IndexOf(owo);
+    }
+    public string numsToOwo(string numbers) {
+        StringBuilder owoed = new StringBuilder();
+        for(int i = 0; i < numbers.Length; i++) {
+            owoed.Append(numToOwo(""+numbers[i]));
+        }
+        return owoed.ToString();
+    }
+
+
+    public string giveLife(string owoedWithoutLife) {
+        StringBuilder lifed = new StringBuilder();
+        for(int i = 0; i < owoedWithoutLife.Length; i+=2) {
+            lifed.Append(owoedWithoutLife[i]+"w"+owoedWithoutLife[i+1]+" ");
+        }
+        return lifed.ToString();
+    }
+
+    public string removeLife(string owoedWithLife) {
+        StringBuilder withoutLife = new StringBuilder();
+        foreach(char c in owoedWithLife.ToArray()) {
+            if(c != 'w' && c != ' ') {
+                withoutLife.Append(c);
+            }
+        }
+        return withoutLife.ToString();
+    }
+
+    public void onEncode() {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i<inputText.Length; i++) {
+            int c = (int)inputText.ElementAt(i);
+            string bin = format8Bin(intToBin(c));
+            Console.WriteLine(bin);
+            sb.Append(squashBinStr(bin));
+        }
+        string numbered = sb.ToString();
+        string owoedWithoutLife = numsToOwo(numbered);
+
+        string owoed = giveLife(owoedWithoutLife);
+
+        outputText = owoed;
+    }
+    public void onDecode() {
+        string lifeless = removeLife(inputText);
+        StringBuilder binBuilder = new StringBuilder();
+        int count = 1;
+        foreach(char c in lifeless) {
+            int num = owoToNum(c);
+            Console.WriteLine(num);
+            string bin = format2Bin(intToBin(num));
+            Console.WriteLine(bin);
+            binBuilder.Append(bin);
+            if(count % 4 == 0) {
+                binBuilder.Append(" ");
+            }
+            count++;
+        }
+        StringBuilder resultStr = new StringBuilder();
+        string[] numBins = binBuilder.ToString().Split(' ');
+        foreach(string numBin in numBins) {
+            Console.WriteLine(numBin);
+            if(numBin == "" || numBin == null) {
+                continue;
+            }
+            int c = binToInt(numBin);
+            Console.WriteLine(c.ToString("X"));
+            resultStr.Append((char)c);
+        }
+        outputText = resultStr.ToString();
+    }
+}
+
