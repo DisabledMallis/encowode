@@ -5,12 +5,12 @@
 <p>Encode messages into owo and uwu</p>
 
 <!--Input-->
-<textarea @bind="inputText" class="textarea" style="width: 100%; resize: verticle; display: block;">@inputText</textarea>
+<textarea @bind="inputText" class="textarea" style="width: 100%; resize: verticle; display: block; margin-bottom: 5px;">@inputText</textarea>
 <!--Buttons-->
 <button class="btn btn-primary" style="width: 49%; display: inline-block;" @onclick="onEncode">Encowode</button>
 <button class="btn btn-primary" style="float: right; width: 49%; display: inline-block;" @onclick="onDecode">Decowode</button>
 <!--Output-->
-<textarea class="textarea" style="width: 100%; resize: verticle; display: block;">@outputText</textarea>
+<textarea class="textarea" style="width: 100%; resize: verticle; display: block; margin-top: 5px;" readonly>@outputText</textarea>
 
 @code {
 
