@@ -50,10 +50,12 @@
 
     public string squashBinStr(string binary) {
         StringBuilder result = new StringBuilder();
-        for(int i = 0; i < binary.Length; i += 2) {
-            string bits = ""+binary[i]+binary[i+1];
-            result.Append(binToInt(bits));
-        }
+        try{
+            for(int i = 0; i < binary.Length; i += 2) {
+                string bits = ""+binary[i]+binary[i+1];
+                result.Append(binToInt(bits));
+            }
+        } catch (Exception) {}
         return result.ToString();
     }
 
