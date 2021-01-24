@@ -29,12 +29,12 @@ jobs:
         uses: actions/setup-dotnet@v1.7.2
       
       - name: Create output dir
-        run: |
-          mkdir release
-          mkdir release/wwwroot
+        run: mkdir release
+
+      - run: mkdir release/wwwroot
 
       - name: Make .gitattributes
-      run: echo "* binary" >> release/wwwroot/.gitattributes
+        run: echo "* binary" >> release/wwwroot/.gitattributes
 
       - name: Build website
         run: dotnet publish encowode.csproj -c Release -o release --nologo
