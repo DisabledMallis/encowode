@@ -31,6 +31,10 @@ jobs:
       - name: Build website
         run: dotnet publish encowode.csproj -c Release -o release --nologo
       
+      # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
+      - name: Add .nojekyll file
+        run: touch release/wwwroot/.nojekyll
+      
       - name: Make CNAME file
         run: echo encowo.de >> release/CNAME
         
