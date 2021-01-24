@@ -35,8 +35,11 @@ jobs:
       - name: Add .nojekyll file
         run: touch release/wwwroot/.nojekyll
       
+      - name: Make .gitattributes
+        run: echo * binary >> release/wwwroot/.gitattributes
+
       - name: Make CNAME file
-        run: echo encowo.de >> release/CNAME
+        run: echo encowo.de >> release/wwwroot/CNAME
         
       - name: Commit wwwroot to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
