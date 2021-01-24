@@ -98,7 +98,6 @@
         for(int i = 0; i<inputText.Length; i++) {
             int c = (int)inputText.ElementAt(i);
             string bin = format8Bin(intToBin(c));
-            Console.WriteLine(bin);
             sb.Append(squashBinStr(bin));
         }
         string numbered = sb.ToString();
@@ -114,9 +113,7 @@
         int count = 1;
         foreach(char c in lifeless) {
             int num = owoToNum(c);
-            Console.WriteLine(num);
             string bin = format2Bin(intToBin(num));
-            Console.WriteLine(bin);
             binBuilder.Append(bin);
             if(count % 4 == 0) {
                 binBuilder.Append(" ");
@@ -126,12 +123,10 @@
         StringBuilder resultStr = new StringBuilder();
         string[] numBins = binBuilder.ToString().Split(' ');
         foreach(string numBin in numBins) {
-            Console.WriteLine(numBin);
             if(numBin == "" || numBin == null) {
                 continue;
             }
             int c = binToInt(numBin);
-            Console.WriteLine(c.ToString("X"));
             resultStr.Append((char)c);
         }
         outputText = resultStr.ToString();
