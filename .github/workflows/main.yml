@@ -29,9 +29,9 @@ jobs:
         uses: actions/setup-dotnet@v1.7.2
       
       - name: Create output dir
-        run: mkdir release
-
-      - run: mkdir release/wwwroot
+        run: |
+          mkdir release
+          mkdir release/wwwroot
 
       - name: Make .gitattributes
         run: echo "* binary" >> release/wwwroot/.gitattributes
